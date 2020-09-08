@@ -912,3 +912,330 @@ Processing by ArticlesController#index as HTML
 Completed 200 OK in 7ms (Views: 6.4ms | ActiveRecord: 0.1ms | Allocations: 4923)
 
 
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateComments (20200908193315)
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE TABLE "comments" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "commenter" varchar, "body" text, "article_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_3bf61a60d3"
+FOREIGN KEY ("article_id")
+  REFERENCES "articles" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_comments_on_article_id" ON "comments" ("article_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20200908193315"]]
+  [1m[35m (0.8ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.0ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Started GET "/articles" for ::1 at 2020-09-08 14:56:13 -0500
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by ArticlesController#index as HTML
+  Rendering articles/index.html.erb within layouts/application
+  [1m[36mArticle Load (0.2ms)[0m  [1m[34mSELECT "articles".* FROM "articles"[0m
+  ↳ app/views/articles/index.html.erb:11
+  Rendered articles/index.html.erb within layouts/application (Duration: 6.8ms | Allocations: 5084)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 51ms (Views: 37.6ms | ActiveRecord: 0.7ms | Allocations: 29028)
+
+
+Started GET "/articles" for ::1 at 2020-09-08 14:56:15 -0500
+Processing by ArticlesController#index as HTML
+  Rendering articles/index.html.erb within layouts/application
+  [1m[36mArticle Load (0.1ms)[0m  [1m[34mSELECT "articles".* FROM "articles"[0m
+  ↳ app/views/articles/index.html.erb:11
+  Rendered articles/index.html.erb within layouts/application (Duration: 1.4ms | Allocations: 997)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 7ms (Views: 6.6ms | ActiveRecord: 0.1ms | Allocations: 5019)
+
+
+Started GET "/articles/1" for ::1 at 2020-09-08 14:56:22 -0500
+Processing by ArticlesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mArticle Load (0.2ms)[0m  [1m[34mSELECT "articles".* FROM "articles" WHERE "articles"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/articles_controller.rb:7:in `show'
+  Rendering articles/show.html.erb within layouts/application
+  Rendered articles/show.html.erb within layouts/application (Duration: 1.4ms | Allocations: 1557)
+Completed 500 Internal Server Error in 5ms (ActiveRecord: 0.2ms | Allocations: 3135)
+
+
+  
+ActionView::SyntaxErrorInTemplate (Encountered a syntax error while rendering template: check <p>
+  <strong>Title:</strong>
+  <%= @article.title %>
+</p>
+
+<p>
+  <strong>Text:</strong>
+  <%= @article.text %>
+</p>
+
+<%# Looping through comments %>
+<h2>Comments</h2>
+<% @article.comments.each do |comment| %>
+  <p>
+    <strong>COmmenter:</strong>
+    <%= comment.body %>
+  </p>
+<% end %>
+
+
+<h2>Add a comment:</h2>
+<%= form_with(model: [ @article, @article.comments.build ], local: true) do |form| %>
+  <p>
+    <%= form.label :commenter %><br>
+    <%= form.text_field :commenter %>
+  </p>
+  <p>
+    <%= form.label :body %><br>
+    <%= form.text_area :body %>
+  </p>
+  <p>
+    <%= form.submit %>
+  </p>
+
+<%= link_to 'Edit', edit_article_path(@article) %> |
+<%= link_to 'Back', articles_path %>
+
+):
+1:    <p>
+2:      <strong>Title:</strong>
+3:      <%= @article.title %>
+4:    </p>
+5:    
+6:    <p>
+7:      <strong>Text:</strong>
+8:      <%= @article.text %>
+9:    </p>
+10:    
+11:    <%# Looping through comments %>
+12:    <h2>Comments</h2>
+13:    <% @article.comments.each do |comment| %>
+14:      <p>
+15:        <strong>COmmenter:</strong>
+16:        <%= comment.body %>
+17:      </p>
+18:    <% end %>
+19:    
+20:    
+21:    <h2>Add a comment:</h2>
+22:    <%= form_with(model: [ @article, @article.comments.build ], local: true) do |form| %>
+23:      <p>
+24:        <%= form.label :commenter %><br>
+25:        <%= form.text_field :commenter %>
+26:      </p>
+27:      <p>
+28:        <%= form.label :body %><br>
+29:        <%= form.text_area :body %>
+30:      </p>
+31:      <p>
+32:        <%= form.submit %>
+33:      </p>
+34:    
+35:    <%= link_to 'Edit', edit_article_path(@article) %> |
+36:    <%= link_to 'Back', articles_path %>
+  
+app/views/articles/show.html.erb:39: syntax error, unexpected end-of-input, expecting end
+app/views/articles/show.html.erb:39: syntax error, unexpected end-of-input, expecting end
+app/views/articles/show.html.erb:39: syntax error, unexpected end-of-input, expecting end
+app/views/articles/show.html.erb:39: syntax error, unexpected end-of-input, expecting end
+app/views/articles/show.html.erb:39: syntax error, unexpected end-of-input, expecting end
+app/views/articles/show.html.erb:39: syntax error, unexpected end-of-input, expecting end
+Started GET "/articles" for ::1 at 2020-09-08 14:56:28 -0500
+Processing by ArticlesController#index as HTML
+  Rendering articles/index.html.erb within layouts/application
+  [1m[36mArticle Load (0.1ms)[0m  [1m[34mSELECT "articles".* FROM "articles"[0m
+  ↳ app/views/articles/index.html.erb:11
+  Rendered articles/index.html.erb within layouts/application (Duration: 1.8ms | Allocations: 1007)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 8ms (Views: 6.7ms | ActiveRecord: 0.1ms | Allocations: 5073)
+
+
+Started GET "/articles" for ::1 at 2020-09-08 14:57:38 -0500
+Processing by ArticlesController#index as HTML
+  Rendering articles/index.html.erb within layouts/application
+  [1m[36mArticle Load (0.1ms)[0m  [1m[34mSELECT "articles".* FROM "articles"[0m
+  ↳ app/views/articles/index.html.erb:11
+  Rendered articles/index.html.erb within layouts/application (Duration: 1.7ms | Allocations: 1226)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 8ms (Views: 6.8ms | ActiveRecord: 0.1ms | Allocations: 6176)
+
+
+Started GET "/articles" for ::1 at 2020-09-08 14:57:38 -0500
+Processing by ArticlesController#index as HTML
+  Rendering articles/index.html.erb within layouts/application
+  [1m[36mArticle Load (0.1ms)[0m  [1m[34mSELECT "articles".* FROM "articles"[0m
+  ↳ app/views/articles/index.html.erb:11
+  Rendered articles/index.html.erb within layouts/application (Duration: 1.1ms | Allocations: 987)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 6ms (Views: 5.1ms | ActiveRecord: 0.1ms | Allocations: 5004)
+
+
+Started GET "/articles/1" for ::1 at 2020-09-08 14:57:40 -0500
+Processing by ArticlesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mArticle Load (0.1ms)[0m  [1m[34mSELECT "articles".* FROM "articles" WHERE "articles"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/articles_controller.rb:7:in `show'
+  Rendering articles/show.html.erb within layouts/application
+  Rendered articles/show.html.erb within layouts/application (Duration: 0.7ms | Allocations: 1259)
+Completed 500 Internal Server Error in 3ms (ActiveRecord: 0.1ms | Allocations: 2395)
+
+
+  
+ActionView::SyntaxErrorInTemplate (Encountered a syntax error while rendering template: check <p>
+  <strong>Title:</strong>
+  <%= @article.title %>
+</p>
+
+<p>
+  <strong>Text:</strong>
+  <%= @article.text %>
+</p>
+
+<%# Looping through comments %>
+<h2>Comments</h2>
+<% @article.comments.each do |comment| %>
+  <p>
+    <strong>Commenter:</strong>
+    <%= comment.commenter %>
+  </p>
+  <p>
+    <strong>Comment:</strong>
+    <%= comment.body %>
+  </p>
+<% end %>
+
+
+<h2>Add a comment:</h2>
+<%= form_with(model: [ @article, @article.comments.build ], local: true) do |form| %>
+  <p>
+    <%= form.label :commenter %><br>
+    <%= form.text_field :commenter %>
+  </p>
+  <p>
+    <%= form.label :body %><br>
+    <%= form.text_area :body %>
+  </p>
+  <p>
+    <%= form.submit %>
+  </p>
+
+<%= link_to 'Edit', edit_article_path(@article) %> |
+<%= link_to 'Back', articles_path %>
+
+):
+1:    <p>
+2:      <strong>Title:</strong>
+3:      <%= @article.title %>
+4:    </p>
+5:    
+6:    <p>
+7:      <strong>Text:</strong>
+8:      <%= @article.text %>
+9:    </p>
+10:    
+11:    <%# Looping through comments %>
+12:    <h2>Comments</h2>
+13:    <% @article.comments.each do |comment| %>
+14:      <p>
+15:        <strong>Commenter:</strong>
+16:        <%= comment.commenter %>
+17:      </p>
+18:      <p>
+19:        <strong>Comment:</strong>
+20:        <%= comment.body %>
+21:      </p>
+22:    <% end %>
+23:    
+24:    
+25:    <h2>Add a comment:</h2>
+26:    <%= form_with(model: [ @article, @article.comments.build ], local: true) do |form| %>
+27:      <p>
+28:        <%= form.label :commenter %><br>
+29:        <%= form.text_field :commenter %>
+30:      </p>
+31:      <p>
+32:        <%= form.label :body %><br>
+33:        <%= form.text_area :body %>
+34:      </p>
+35:      <p>
+36:        <%= form.submit %>
+37:      </p>
+38:    
+39:    <%= link_to 'Edit', edit_article_path(@article) %> |
+40:    <%= link_to 'Back', articles_path %>
+  
+app/views/articles/show.html.erb:43: syntax error, unexpected end-of-input, expecting end
+app/views/articles/show.html.erb:43: syntax error, unexpected end-of-input, expecting end
+app/views/articles/show.html.erb:43: syntax error, unexpected end-of-input, expecting end
+app/views/articles/show.html.erb:43: syntax error, unexpected end-of-input, expecting end
+app/views/articles/show.html.erb:43: syntax error, unexpected end-of-input, expecting end
+app/views/articles/show.html.erb:43: syntax error, unexpected end-of-input, expecting end
+Started GET "/articles/1" for ::1 at 2020-09-08 14:59:38 -0500
+Processing by ArticlesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mArticle Load (0.1ms)[0m  [1m[34mSELECT "articles".* FROM "articles" WHERE "articles"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/articles_controller.rb:7:in `show'
+  Rendering articles/show.html.erb within layouts/application
+  [1m[36mComment Load (0.1ms)[0m  [1m[34mSELECT "comments".* FROM "comments" WHERE "comments"."article_id" = ?[0m  [["article_id", 1]]
+  ↳ app/views/articles/show.html.erb:13
+  Rendered articles/show.html.erb within layouts/application (Duration: 36.2ms | Allocations: 17855)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 44ms (Views: 41.6ms | ActiveRecord: 0.7ms | Allocations: 23231)
+
+
+Started POST "/articles/1/comments" for ::1 at 2020-09-08 15:00:14 -0500
+Processing by CommentsController#create as HTML
+  Parameters: {"authenticity_token"=>"Uv2nz2agZCl/1yv6KIs8HmwulHpSzBDTJ2vzV6j3SgEmSUJuj1rpYC/Uk+tXS3QBDgXbLYUt5DB24oTagKCTpA==", "comment"=>{"commenter"=>"Pete", "body"=>"First!"}, "commit"=>"Create Comment", "article_id"=>"1"}
+  [1m[36mArticle Load (0.1ms)[0m  [1m[34mSELECT "articles".* FROM "articles" WHERE "articles"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/comments_controller.rb:3:in `create'
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/comments_controller.rb:4:in `create'
+  [1m[36mComment Create (0.6ms)[0m  [1m[32mINSERT INTO "comments" ("commenter", "body", "article_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["commenter", "Pete"], ["body", "First!"], ["article_id", 1], ["created_at", "2020-09-08 20:00:14.509030"], ["updated_at", "2020-09-08 20:00:14.509030"]]
+  ↳ app/controllers/comments_controller.rb:4:in `create'
+  [1m[35m (0.6ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/comments_controller.rb:4:in `create'
+Redirected to http://localhost:3000/articles/1
+Completed 302 Found in 7ms (ActiveRecord: 1.3ms | Allocations: 3894)
+
+
+Started GET "/articles/1" for ::1 at 2020-09-08 15:00:14 -0500
+Processing by ArticlesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mArticle Load (0.1ms)[0m  [1m[34mSELECT "articles".* FROM "articles" WHERE "articles"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/articles_controller.rb:7:in `show'
+  Rendering articles/show.html.erb within layouts/application
+  [1m[36mComment Load (0.1ms)[0m  [1m[34mSELECT "comments".* FROM "comments" WHERE "comments"."article_id" = ?[0m  [["article_id", 1]]
+  ↳ app/views/articles/show.html.erb:13
+  Rendered articles/show.html.erb within layouts/application (Duration: 2.3ms | Allocations: 1641)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 9ms (Views: 7.5ms | ActiveRecord: 0.2ms | Allocations: 6183)
+
+
+Started POST "/articles/1/comments" for ::1 at 2020-09-08 15:00:27 -0500
+Processing by CommentsController#create as HTML
+  Parameters: {"authenticity_token"=>"ghd6om2Dl4qKLbePelEN6EPIjtx/5INii8wYvFEkxzz2o58DhHkaw9ouD54FkUX3IePBi6gFd4HaRW8xeXMemQ==", "comment"=>{"commenter"=>"Vic", "body"=>"Second!"}, "commit"=>"Create Comment", "article_id"=>"1"}
+  [1m[36mArticle Load (0.1ms)[0m  [1m[34mSELECT "articles".* FROM "articles" WHERE "articles"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/comments_controller.rb:3:in `create'
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/comments_controller.rb:4:in `create'
+  [1m[36mComment Create (0.4ms)[0m  [1m[32mINSERT INTO "comments" ("commenter", "body", "article_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["commenter", "Vic"], ["body", "Second!"], ["article_id", 1], ["created_at", "2020-09-08 20:00:27.690553"], ["updated_at", "2020-09-08 20:00:27.690553"]]
+  ↳ app/controllers/comments_controller.rb:4:in `create'
+  [1m[35m (0.6ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/comments_controller.rb:4:in `create'
+Redirected to http://localhost:3000/articles/1
+Completed 302 Found in 5ms (ActiveRecord: 1.1ms | Allocations: 3649)
+
+
+Started GET "/articles/1" for ::1 at 2020-09-08 15:00:27 -0500
+Processing by ArticlesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mArticle Load (0.1ms)[0m  [1m[34mSELECT "articles".* FROM "articles" WHERE "articles"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/articles_controller.rb:7:in `show'
+  Rendering articles/show.html.erb within layouts/application
+  [1m[36mComment Load (0.1ms)[0m  [1m[34mSELECT "comments".* FROM "comments" WHERE "comments"."article_id" = ?[0m  [["article_id", 1]]
+  ↳ app/views/articles/show.html.erb:13
+  Rendered articles/show.html.erb within layouts/application (Duration: 2.3ms | Allocations: 1646)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 8ms (Views: 6.8ms | ActiveRecord: 0.2ms | Allocations: 6190)
+
+
