@@ -14,18 +14,3 @@
                method: :delete,
                data: { confirm: 'Are you sure?' } %>
 </p>
-
-
-<%# For reference, show.html.erb previously contained this loop instead: %>
-=begin
-<% @article.comments.each do |comment| %>
-  <p>
-    <strong>Commenter:</strong>
-    <%= comment.commenter %>
-  </p>
-  <p>
-    <strong>Comment:</strong>
-    <%= comment.body %>
-  </p>
-<% end %>
-=end
